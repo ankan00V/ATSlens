@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiring Agent ATS - AI Resume Scorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="glow-blob top-left"></div>
+    <div class="glow-blob bottom-right"></div>
+
+    <main class="container">
+        <header class="hero">
+            <h1>Hiring Agent <span class="highlight">ATS</span></h1>
+            <p>Upload a resume and get a comprehensive, AI-powered evaluation in seconds.</p>
+        </header>
+
+        <section class="upload-section glass-panel">
+            <form id="uploadForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="roleSelect">Target Role</label>
+                        <select id="roleSelect" name="role" required>
+                            <option value="" disabled selected>Loading roles...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Resume Document</label>
+                    <div class="file-drop-area" id="fileDropArea">
+                        <div class="file-icon">📄</div>
+                        <span class="file-msg">Drag & drop a PDF here or click to browse</span>
+                        <input type="file" id="resumeFile" name="resume" accept="application/pdf" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-primary glow-button">
+                    <span class="btn-text">Run ATS Scan</span>
+                    <span class="spinner hidden"></span>
+                </button>
+            </form>
+        </section>
+
+        <!-- Loading State -->
+        <section id="loadingState" class="status-panel glass-panel hidden">
+            <div class="scanner-animation">
+                <div class="scanner-bar"></div>
+                <div class="file-icon large">📄</div>
+            </div>
+            <h2>Scanning Resume...</h2>
+            <p>Extracting skills, fetching GitHub signals, and grading.</p>
+        </section>
+
+        <!-- Error State -->
+        <section id="errorState" class="status-panel error-panel glass-panel hidden">
+            <div class="error-icon">⚠️</div>
+            <h2>Evaluation Failed</h2>
+            <p id="errorMsg"></p>
+            <button id="retryBtn" class="btn-secondary">Try Again</button>
+        </section>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="results-container hidden">
+            <!-- Top Dashboard -->
+            <div class="score-dashboard glass-panel">
+                <div class="score-main">
+                    <h2>Overall ATS Score</h2>
+                    <div class="score-circle">
+                        <span id="overallScore">0</span><span class="max-score">/100</span>
+                    </div>
+                </div>
+                <div class="score-stats">
+                    <div class="stat-box good-stat">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Bonus Points</span>
+                            <strong id="bonusPoints">+0</strong>
+                        </div>
+                    </div>
+                    <div class="stat-box bad-stat">
+                        <div class="stat-icon">📉</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Deductions</span>
+                            <strong id="deductionPoints">-0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feedback Split -->
+            <div class="feedback-split">
+                <div class="feedback-panel good-panel glass-panel">
+                    <div class="panel-header">
+                        <span class="emoji">✅</span>
+                        <h3>What's Good (Strengths)</h3>
+                    </div>
+                    <ul id="strengthsList" class="custom-list">
+                        <!-- Strengths injected here -->
+                    </ul>
+                </div>
+
+                <div class="feedback-panel bad-panel glass-panel">
+                    <div class="panel-header">
+                        <span class="emoji">❌</span>
+                        <h3>What's Bad (Needs Improvement)</h3>
+                    </div>
+                    <ul id="improvementsList" class="custom-list">
+                        <!-- Improvements injected here -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Detailed Categories -->
+            <div class="detailed-scores glass-panel">
+                <div class="panel-header">
+                    <span class="emoji">📊</span>
+                    <h3>Category Breakdown</h3>
+                </div>
+                <div id="categoriesList" class="categories-grid">
+                    <!-- Categories injected here -->
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button id="scanAnotherBtn" class="btn-secondary">Scan Another Resume</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
