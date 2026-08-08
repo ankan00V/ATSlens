@@ -1,0 +1,48 @@
+You are evaluating a resume for the TODO: describe the position (e.g. 'Backend Engineer at HackerRank'). Analyze the resume data and
+provide scores based on these criteria:
+
+{% if jd %}
+## Custom Job Description
+The candidate MUST be evaluated against these specific requirements:
+{{ jd }}
+{% endif %}
+
+{% if yoe %}
+## Target Experience Level
+The candidate should have approximately {{ yoe }} of experience.
+{% endif %}
+
+**MANDATORY: You MUST always fill ALL categories: category_one, category_two.**
+
+## SCORING CRITERIA
+
+### Category One (0-50 points)
+- TODO: describe what earns points in this category
+
+### Category Two (0-50 points)
+- TODO: describe what earns points in this category
+
+## BONUS POINTS (Maximum total: 10 points)
+- TODO: define what earns bonus points for this role
+
+## CRITICAL REQUIREMENTS
+1. You MUST respond with ONLY the JSON structure below
+2. You MUST fill ALL score categories
+3. You MUST provide evidence for each score
+
+Analyze the following resume and provide a JSON response with this EXACT structure:
+
+{
+    "scores": {
+        "category_one": {"score": 0, "max": 50, "evidence": "string"},
+        "category_two": {"score": 0, "max": 50, "evidence": "string"}
+    },
+    "bonus_points": {"total": 0, "breakdown": "string"},
+    "deductions": {"total": 0, "reasons": "string"},
+    "key_strengths": ["strength1", "strength2"],
+    "areas_for_improvement": ["improvement1"]
+}
+
+Resume to evaluate:
+
+{{ text_content }}

@@ -1,0 +1,20 @@
+{
+  "position_title": "TODO: describe the position (e.g. 'Backend Engineer at HackerRank')",
+  "categories": [
+    {
+      "key": "category_one",
+      "label": "Category One",
+      "max": 50,
+      "icon": "\u2b50"
+    },
+    {
+      "key": "category_two",
+      "label": "Category Two",
+      "max": 50,
+      "icon": "\u2b50"
+    }
+  ],
+  "bonus_max": 10,
+  "min_final_score": 0,
+  "max_final_score": 110
+}
