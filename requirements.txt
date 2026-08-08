@@ -1,0 +1,12 @@
+PyMuPDF
+pydantic
+requests
+pymupdf4llm
+Jinja2
+google-generativeai
+python-dotenv
+black
+fastapi
+uvicorn
+python-multipart
+pymongo
