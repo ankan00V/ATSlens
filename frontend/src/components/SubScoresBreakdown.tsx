@@ -15,7 +15,7 @@ interface SubScoresBreakdownProps {
 
 export const SubScoresBreakdown: React.FC<SubScoresBreakdownProps> = ({ categoryScores, subScores }) => {
   // Use categoryScores if available, fallback to subScores float logic if not
-  const getScoreData = (key: string, fallbackMax: number) => {
+  const getScoreData = (key: string) => {
     if (categoryScores && categoryScores[key]) {
       const val = categoryScores[key].score;
       const max = categoryScores[key].max;
@@ -32,28 +32,28 @@ export const SubScoresBreakdown: React.FC<SubScoresBreakdownProps> = ({ category
       key: 'work_experience',
       label: 'Work Experience',
       icon: <Briefcase className="w-4 h-4 text-indigo-400" />,
-      data: getScoreData('work_experience', 35),
+      data: getScoreData('work_experience'),
       color: 'bg-indigo-500',
     },
     {
       key: 'technical_skills',
       label: 'Technical Skills',
       icon: <Code className="w-4 h-4 text-sky-400" />,
-      data: getScoreData('technical_skills', 35),
+      data: getScoreData('technical_skills'),
       color: 'bg-sky-500',
     },
     {
       key: 'education',
       label: 'Education',
       icon: <GraduationCap className="w-4 h-4 text-emerald-400" />,
-      data: getScoreData('education', 15),
+      data: getScoreData('education'),
       color: 'bg-emerald-500',
     },
     {
       key: 'project_impact',
       label: 'Project Impact',
       icon: <Zap className="w-4 h-4 text-amber-400" />,
-      data: getScoreData('project_impact', 15),
+      data: getScoreData('project_impact'),
       color: 'bg-amber-500',
     },
   ];
