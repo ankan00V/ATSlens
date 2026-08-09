@@ -1,17 +1,23 @@
-# Progress Log
+# Progress Tracker — ATSlens M3 & M4
 
 ## Current Status
-Last visited: 2026-08-08T01:00:00+05:30
+Last visited: 2026-08-09T11:30:00+05:30
 
 ## Iteration Status
 Current iteration: 1 / 32
 
 ## Checklist
-- [x] Workspace setup & metadata initialization
-- [x] Phase 0: Survey codebase with 3 parallel Explorers
-- [x] Synthesize findings & create `PROJECT.md`
-- [x] Execute M1 & M2: `framer-motion` & isolated animation components (Gate PASS)
-- [x] Execute M3: Asymmetric `Hero.tsx` redesign (Gate PASS)
-- [x] Execute M4: Premium styling compliance & audit (Gate PASS)
-- [x] Verify build and acceptance criteria (0 build/lint errors, 100% criteria met)
-- [x] Claim victory
+- [x] Initial setup & project assessment
+- [x] Create state and briefing metadata files
+- [x] Schedule heartbeat cron
+- [ ] Milestone 3: Frontend UI Presets & MAANG Enhancements
+  - [/] Explorer survey of frontend & backend API structure (Retrying with dedicated single Explorer to manage quota)
+  - [ ] Worker implementation of presets, sub-scores, badges, PDF download button
+  - [ ] Reviewer code & design review
+  - [ ] Gate verdict & verification
+- [ ] Milestone 4: Pytest & Playwright Automated Test Suites
+  - [ ] Explorer investigation of backend/frontend test setups & endpoints
+  - [ ] Worker implementation of pytest backend tests & playwright frontend tests
+  - [ ] Reviewer verification & test execution
+  - [ ] Gate verdict & verification
+- [ ] Final synthesis & report to user

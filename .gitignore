@@ -9,6 +9,8 @@ resume_evaluations.csv
 resume_evaluations_*.csv
 greenhouse_resumes/*
 prompts/
+node_modules/
+**/node_modules/
 
 
 # Byte-compiled / optimized / DLL files

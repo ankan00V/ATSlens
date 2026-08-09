@@ -1,4 +1,4 @@
-You are evaluating a resume for the TODO: describe the position (e.g. 'Backend Engineer at HackerRank'). Analyze the resume data and
+You are evaluating a resume for a Backend Engineer position. Analyze the resume data and
 provide scores based on these criteria:
 
 {% if jd %}
@@ -12,31 +12,52 @@ The candidate MUST be evaluated against these specific requirements:
 The candidate should have approximately {{ yoe }} of experience.
 {% endif %}
 
-**MANDATORY: You MUST always fill ALL categories: category_one, category_two.**
+**MANDATORY: You MUST always fill ALL categories: work_experience, technical_skills, education, project_impact.**
 
 ## SCORING CRITERIA
 
-### Category One (0-50 points)
-- TODO: describe what earns points in this category
+### Work Experience (0-35 points)
+- Relevant backend engineering experience, systems architecture, scalability, API design, microservices, databases.
 
-### Category Two (0-50 points)
-- TODO: describe what earns points in this category
+### Technical Skills (0-35 points)
+- Proficiency in Python, Go, Java, Node.js, databases (SQL/NoSQL), messaging queues, Docker, Kubernetes, CI/CD.
+
+### Education (0-15 points)
+- Degree in Computer Science, Software Engineering, or related technical discipline / relevant certifications.
+
+### Project Impact (0-15 points)
+- Production contributions, system optimizations, measurable performance gains, high-scale service handling.
 
 ## BONUS POINTS (Maximum total: 10 points)
-- TODO: define what earns bonus points for this role
+- Open source contributions, high-traffic systems experience, engineering leadership or publications.
 
 ## CRITICAL REQUIREMENTS
 1. You MUST respond with ONLY the JSON structure below
 2. You MUST fill ALL score categories
 3. You MUST provide evidence for each score
+4. You MUST include sub_scores, keyword_gap_analysis, missing_tech_stack, and skill_recommendations
 
 Analyze the following resume and provide a JSON response with this EXACT structure:
 
 {
     "scores": {
-        "category_one": {"score": 0, "max": 50, "evidence": "string"},
-        "category_two": {"score": 0, "max": 50, "evidence": "string"}
+        "work_experience": {"score": 0, "max": 35, "evidence": "string"},
+        "technical_skills": {"score": 0, "max": 35, "evidence": "string"},
+        "education": {"score": 0, "max": 15, "evidence": "string"},
+        "project_impact": {"score": 0, "max": 15, "evidence": "string"}
     },
+    "sub_scores": {
+        "work_experience": 0.0,
+        "technical_skills": 0.0,
+        "education": 0.0,
+        "project_impact": 0.0
+    },
+    "keyword_gap_analysis": {
+        "matched_keywords": ["keyword1", "keyword2"],
+        "missing_keywords": ["keyword3"]
+    },
+    "missing_tech_stack": ["tech1"],
+    "skill_recommendations": ["recommendation1"],
     "bonus_points": {"total": 0, "breakdown": "string"},
     "deductions": {"total": 0, "reasons": "string"},
     "key_strengths": ["strength1", "strength2"],

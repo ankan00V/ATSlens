@@ -140,7 +140,42 @@ def print_evaluation_results(
         for i, area in enumerate(evaluation.areas_for_improvement, 1):
             print(f"  {i}. {area}")
 
+    # Sub-Scores Breakdown
+    if hasattr(evaluation, "sub_scores") and evaluation.sub_scores:
+        sub = evaluation.sub_scores
+        print("\n📊 SUB-SCORES BREAKDOWN:")
+        print("-" * 30)
+        print(f"  • Work Experience: {getattr(sub, 'work_experience', 0.0):.1f}")
+        print(f"  • Technical Skills: {getattr(sub, 'technical_skills', 0.0):.1f}")
+        print(f"  • Education: {getattr(sub, 'education', 0.0):.1f}")
+        print(f"  • Project Impact: {getattr(sub, 'project_impact', 0.0):.1f}")
+
+    # Keyword Gap Analysis
+    if hasattr(evaluation, "keyword_gap_analysis") and evaluation.keyword_gap_analysis:
+        kg = evaluation.keyword_gap_analysis
+        matched = getattr(kg, "matched_keywords", [])
+        missing = getattr(kg, "missing_keywords", [])
+        print("\n🔑 KEYWORD GAP ANALYSIS:")
+        print("-" * 30)
+        print(f"  • Matched Keywords: {', '.join(matched) if matched else 'None'}")
+        print(f"  • Missing Keywords: {', '.join(missing) if missing else 'None'}")
+
+    # Missing Tech Stack
+    if hasattr(evaluation, "missing_tech_stack") and evaluation.missing_tech_stack:
+        print("\n⚠️ MISSING TECH STACK:")
+        print("-" * 30)
+        for tech in evaluation.missing_tech_stack:
+            print(f"  - {tech}")
+
+    # Skill Recommendations
+    if hasattr(evaluation, "skill_recommendations") and evaluation.skill_recommendations:
+        print("\n💡 SKILL RECOMMENDATIONS:")
+        print("-" * 30)
+        for rec in evaluation.skill_recommendations:
+            print(f"  - {rec}")
+
     print("\n" + "=" * 80)
+
 
 
 def _evaluate_resume(

@@ -1,17 +1,29 @@
 {
-  "position_title": "TODO: describe the position (e.g. 'Backend Engineer at HackerRank')",
+  "position_title": "Data Scientist",
   "categories": [
     {
-      "key": "category_one",
-      "label": "Category One",
-      "max": 50,
-      "icon": "\u2b50"
+      "key": "work_experience",
+      "label": "Work Experience",
+      "max": 35,
+      "icon": "💼"
     },
     {
-      "key": "category_two",
-      "label": "Category Two",
-      "max": 50,
-      "icon": "\u2b50"
+      "key": "technical_skills",
+      "label": "Technical Skills",
+      "max": 35,
+      "icon": "💻"
+    },
+    {
+      "key": "education",
+      "label": "Education",
+      "max": 15,
+      "icon": "🎓"
+    },
+    {
+      "key": "project_impact",
+      "label": "Project Impact",
+      "max": 15,
+      "icon": "🚀"
     }
   ],
   "bonus_max": 10,

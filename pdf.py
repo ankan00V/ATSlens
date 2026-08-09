@@ -48,11 +48,21 @@ class PDFHandler:
                 raise FileNotFoundError(f"PDF file not found: {pdf_path}")
 
             with pymupdf.open(pdf_path) as doc:
-                pages = range(doc.page_count)
-                resume_text = to_markdown(
-                    doc,
-                    pages=pages,
-                )
+                try:
+                    pages = range(doc.page_count)
+                    resume_text = to_markdown(
+                        doc,
+                        pages=pages,
+                    )
+                except Exception as markdown_err:
+                    logger.warning(f"to_markdown extraction warning ({markdown_err}), using fallback page.get_text()")
+                    text_parts = [page.get_text() for page in doc]
+                    resume_text = "\n\n".join(text_parts)
+
+                if not resume_text or not resume_text.strip():
+                    text_parts = [page.get_text() for page in doc]
+                    resume_text = "\n\n".join(text_parts)
+
                 logger.debug(
                     f"Extracted text from PDF: {len(resume_text) if resume_text else 0} characters"
                 )

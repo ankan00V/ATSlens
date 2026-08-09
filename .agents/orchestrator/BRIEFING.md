@@ -1,63 +1,65 @@
-# BRIEFING — 2026-08-08T00:42:07Z
+# BRIEFING — 2026-08-09T11:20:51+05:30
 
 ## Mission
-Revamp ATS upload form in Hero.tsx with MAANG-style asymmetric design, liquid glass, magnetic buttons, isolated client components, framer-motion spring physics, and zero generic AI styles.
+Orchestrate the implementation and verification of Milestone 3 (Frontend UI Presets & MAANG Enhancements) and Milestone 4 (Pytest & Playwright Automated Test Suites) for ATSlens.
 
 ## 🔒 My Identity
-- Archetype: teamwork_project_orchestrator
+- Archetype: teamwork_preview_orchestrator
 - Roles: orchestrator, user_liaison, human_reporter, successor
-- Working directory: /Users/ankanghosh/Downloads/ats app/.agents/orchestrator
+- Working directory: /Users/ankanghosh/Desktop/projects/ATSlens/.agents/orchestrator
 - Original parent: top-level
-- Original parent conversation ID: 9335a05f-a2e3-48eb-9845-6abf4bb5914f
+- Original parent conversation ID: 0160e312-27dc-4afd-9c63-6712f32e0144
 
 ## 🔒 My Workflow
-- **Pattern**: Project
-- **Scope document**: /Users/ankanghosh/Downloads/ats app/PROJECT.md
-1. **Decompose**: Survey codebase via 3 Explorers, create PROJECT.md feature inventory and milestones, verify requirements.
+- **Pattern**: Project Pattern
+- **Scope document**: /Users/ankanghosh/Desktop/projects/ATSlens/PROJECT.md
+1. **Decompose**:
+   - Milestone 3: Frontend UI Presets & MAANG Enhancements (Demo presets in Hero.tsx/frontend, sub-score progress bars & badges, PDF summary export button)
+   - Milestone 4: Pytest & Playwright Automated Test Suites (Pytest integration tests for backend, Playwright E2E/component tests for frontend)
 2. **Dispatch & Execute**:
-   - Iteration Loop: Explorer -> Worker -> Reviewer -> Challenger -> Auditor
+   - Iteration Loop per Milestone (Explorer -> Worker -> Reviewer -> Gate)
 3. **On failure**: Retry -> Replace -> Skip -> Redistribute -> Redesign -> Escalate
-4. **Succession**: Spawn successor when spawn count >= 20 and subagents complete.
+4. **Succession**: Self-succeed when spawn count >= 20.
 - **Work items**:
-  1. Initial Survey [in-progress]
-- **Current phase**: 0 (Survey)
-- **Current focus**: Parallel survey by 3 Explorers
+  1. M3: Frontend UI Presets & MAANG Enhancements [in-progress]
+  2. M4: Pytest & Playwright Automated Test Suites [pending]
+- **Current phase**: 2 (Dispatch & Execute)
+- **Current focus**: Milestone 3 (Frontend UI Presets & MAANG Enhancements)
 
 ## 🔒 Key Constraints
-- Never write source code directly.
-- Never run build/test commands directly.
-- Never investigate code directly — use Explorers.
-- Audit is a binary veto.
-- Pass ORIGINAL_REQUEST.md path to all subagents.
+- NEVER write, modify, or create source code files directly.
+- NEVER run build/test commands yourself — require workers to do so.
+- NEVER investigate or explore code directly — dispatch Explorers for technical investigation.
+- Always use file-editing tools ONLY for metadata/state files (.md) in .agents/ folder.
 
 ## Current Parent
-- Conversation ID: 9335a05f-a2e3-48eb-9845-6abf4bb5914f
-- Updated: not yet
+- Conversation ID: 0160e312-27dc-4afd-9c63-6712f32e0144
+- Updated: 2026-08-09T11:20:51+05:30
 
 ## Key Decisions Made
-- Initiating Project Pattern with Survey phase (3 Explorers).
+- Proceeding with Project Pattern iteration loop for M3 and M4.
+- Dispatch Explorers first to map frontend structure and backend API requirements for M3 and M4.
 
 ## Team Roster
 | Agent | Type | Work Item | Status | Conv ID |
 |-------|------|-----------|--------|---------|
-| explorer_survey_1 | teamwork_preview_explorer | Codebase Survey - Hero.tsx & Form Analysis | completed | c385b9dc-f782-4fa4-b9b3-8cfcbe0204ab |
-| explorer_survey_2 | teamwork_preview_explorer | Styling & Design Architecture Survey | completed | 0d74891b-5c48-4186-b433-8e09c4af2221 |
-| reviewer1_m1_m2_r1 | teamwork_preview_reviewer | Code & Integrity Review M1 & M2 | in-progress | 3c936c58-681b-4083-86ba-bc373a1dbe4c |
-| reviewer1_m3_m4_r1 | teamwork_preview_reviewer | Code & Acceptance Review M3 & M4 | completed | 4ed6bd7b-7bcf-4010-a7d8-dc00619d7570 |
-| reviewer2_m3_m4_r1 | teamwork_preview_reviewer | Layout & Compliance Review M3 & M4 | completed | cb1683fa-94b9-4a3b-b15b-9adb22332b91 |
+| explorer_m3_1 | teamwork_preview_explorer | Explore M3 Frontend UI & Hero.tsx | failed (429) | cbd8e02e-bcc9-4dba-bdc8-428b1a0c6bea |
+| explorer_m3_2 | teamwork_preview_explorer | Explore M3 Preset Data & API Mapping | failed (429) | d556f502-cb99-436c-9579-d16270c283b2 |
+| explorer_m3_3 | teamwork_preview_explorer | Explore M3 PDF Download & UX | failed (429) | dd6f5cb3-18ad-4d9e-b087-67b3ec1f4ba1 |
+| explorer_m3_lead | teamwork_preview_explorer | Explore M3 Full Frontend & API | in-progress | 7c137337-3ed5-42cc-a5f2-fc5164576c65 |
 
 ## Succession Status
 - Succession required: no
-- Spawn count: 11 / 20
-- Pending subagents: 4ed6bd7b-7bcf-4010-a7d8-dc00619d7570, cb1683fa-94b9-4a3b-b15b-9adb22332b91
+- Spawn count: 4 / 20
+- Pending subagents: 7c137337-3ed5-42cc-a5f2-fc5164576c65
 - Predecessor: none
 - Successor: not yet spawned
 
 ## Active Timers
-- Heartbeat cron: not started
+- Heartbeat cron: task-17
 - Safety timer: none
 
 ## Artifact Index
-- /Users/ankanghosh/Downloads/ats app/.agents/orchestrator/plan.md — Orchestrator plan
-- /Users/ankanghosh/Downloads/ats app/.agents/orchestrator/progress.md — Execution tracking
-- /Users/ankanghosh/Downloads/ats app/.agents/orchestrator/DISPATCH.md — Initial dispatch instructions
+- /Users/ankanghosh/Desktop/projects/ATSlens/PROJECT.md — Global Project Index
+- /Users/ankanghosh/Desktop/projects/ATSlens/.agents/ORIGINAL_REQUEST.md — Verbatim User Request
+- /Users/ankanghosh/Desktop/projects/ATSlens/.agents/orchestrator/DISPATCH.md — Dispatch log

@@ -55,8 +55,10 @@ def list_available_roles() -> List[str]:
 _SCAFFOLD_MANIFEST = {
     "position_title": "TODO: describe the position (e.g. 'Backend Engineer at HackerRank')",
     "categories": [
-        {"key": "category_one", "label": "Category One", "max": 50, "icon": "⭐"},
-        {"key": "category_two", "label": "Category Two", "max": 50, "icon": "⭐"},
+        {"key": "work_experience", "label": "Work Experience", "max": 35, "icon": "💼"},
+        {"key": "technical_skills", "label": "Technical Skills", "max": 35, "icon": "💻"},
+        {"key": "education", "label": "Education", "max": 15, "icon": "🎓"},
+        {"key": "project_impact", "label": "Project Impact", "max": 15, "icon": "🚀"},
     ],
     "bonus_max": 10,
     "min_final_score": 0,
@@ -117,6 +119,7 @@ The candidate should have approximately {{{{ yoe }}}} of experience.
 1. You MUST respond with ONLY the JSON structure below
 2. You MUST fill ALL score categories
 3. You MUST provide evidence for each score
+4. You MUST include sub_scores, keyword_gap_analysis, missing_tech_stack, and skill_recommendations
 
 Analyze the following resume and provide a JSON response with this EXACT structure:
 
@@ -124,6 +127,18 @@ Analyze the following resume and provide a JSON response with this EXACT structu
     "scores": {{
 {scores_json}
     }},
+    "sub_scores": {{
+        "work_experience": 0.0,
+        "technical_skills": 0.0,
+        "education": 0.0,
+        "project_impact": 0.0
+    }},
+    "keyword_gap_analysis": {{
+        "matched_keywords": ["keyword1"],
+        "missing_keywords": ["keyword2"]
+    }},
+    "missing_tech_stack": ["tech1"],
+    "skill_recommendations": ["recommendation1"],
     "bonus_points": {{"total": 0, "breakdown": "string"}},
     "deductions": {{"total": 0, "reasons": "string"}},
     "key_strengths": ["strength1", "strength2"],
@@ -134,6 +149,7 @@ Resume to evaluate:
 
 {{{{ text_content }}}}
 """
+
 
 
 def scaffold_role(name: str) -> Path:

@@ -1,12 +1,32 @@
 {
-  "position_title": "Software Intern position at HackerRank",
+  "position_title": "Software Engineering Intern",
   "categories": [
-    {"key": "open_source", "label": "Open Source", "max": 35, "icon": "🌐"},
-    {"key": "self_projects", "label": "Self Projects", "max": 30, "icon": "🚀"},
-    {"key": "production", "label": "Production Experience", "max": 25, "icon": "🏢"},
-    {"key": "technical_skills", "label": "Technical Skills", "max": 10, "icon": "💻"}
+    {
+      "key": "work_experience",
+      "label": "Work Experience",
+      "max": 35,
+      "icon": "💼"
+    },
+    {
+      "key": "technical_skills",
+      "label": "Technical Skills",
+      "max": 35,
+      "icon": "💻"
+    },
+    {
+      "key": "education",
+      "label": "Education",
+      "max": 15,
+      "icon": "🎓"
+    },
+    {
+      "key": "project_impact",
+      "label": "Project Impact",
+      "max": 15,
+      "icon": "🚀"
+    }
   ],
-  "bonus_max": 20,
-  "min_final_score": -20,
-  "max_final_score": 120
+  "bonus_max": 10,
+  "min_final_score": 0,
+  "max_final_score": 110
 }

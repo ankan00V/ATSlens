@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+python3 -c "import os; os.getcwd = lambda: '/Users/ankanghosh/Desktop/projects/ATSlens'; import pytest, sys; sys.exit(pytest.console_main())" "$@"

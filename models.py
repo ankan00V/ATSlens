@@ -221,6 +221,40 @@ class Deductions(BaseModel):
     reasons: str = Field(description="Reasons for deductions")
 
 
+class SubScores(BaseModel):
+    """Sub-scores breakdown for key resume dimensions."""
+
+    work_experience: float = Field(default=0.0, description="Score for Work Experience")
+    technical_skills: float = Field(default=0.0, description="Score for Technical Skills")
+    education: float = Field(default=0.0, description="Score for Education")
+    project_impact: float = Field(default=0.0, description="Score for Project Impact")
+
+
+class KeywordGap(BaseModel):
+    """Keyword gap analysis matching resume skills against job requirements."""
+
+    matched_keywords: List[str] = Field(
+        default_factory=list, description="Matched keywords found in resume"
+    )
+    missing_keywords: List[str] = Field(
+        default_factory=list, description="Missing keywords needed for role"
+    )
+
+
+class EvaluationData(BaseModel):
+    """Complete evaluation data schema containing category scores, sub-scores, keyword gap analysis, and recommendations."""
+
+    scores: Dict[str, CategoryScore] = Field(default_factory=dict)
+    bonus_points: Any = Field(default_factory=dict)
+    deductions: Deductions = Field(default_factory=lambda: Deductions(total=0.0, reasons=""))
+    key_strengths: List[str] = Field(default_factory=list)
+    areas_for_improvement: List[str] = Field(default_factory=list)
+    sub_scores: SubScores = Field(default_factory=SubScores)
+    keyword_gap_analysis: KeywordGap = Field(default_factory=KeywordGap)
+    missing_tech_stack: List[str] = Field(default_factory=list)
+    skill_recommendations: List[str] = Field(default_factory=list)
+
+
 def build_scores_model(categories) -> Type[BaseModel]:
     """Build a ``Scores`` model with one CategoryScore field per role category.
 
@@ -254,9 +288,14 @@ def build_evaluation_model(role) -> Type[BaseModel]:
         scores=(scores_model, ...),
         bonus_points=(bonus_model, ...),
         deductions=(Deductions, ...),
-        key_strengths=(List[str], Field(min_items=1, max_items=5)),
-        areas_for_improvement=(List[str], Field(min_items=1, max_items=5)),
+        key_strengths=(List[str], Field(default_factory=list, min_items=1, max_items=5)),
+        areas_for_improvement=(List[str], Field(default_factory=list, min_items=1, max_items=5)),
+        sub_scores=(SubScores, Field(default_factory=SubScores)),
+        keyword_gap_analysis=(KeywordGap, Field(default_factory=KeywordGap)),
+        missing_tech_stack=(List[str], Field(default_factory=list)),
+        skill_recommendations=(List[str], Field(default_factory=list)),
     )
+
 
 
 class GitHubProfile(BaseModel):

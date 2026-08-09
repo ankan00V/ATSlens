@@ -240,7 +240,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="text-muted-foreground text-[clamp(0.95rem,1.5vw,1.25rem)] font-light leading-relaxed max-w-2xl animate-fade-up"
           style={{ animationDelay: '0.3s' }}
         >
-          Enterprise security & assessment systems built in days. AI-powered resume evaluation deployed with zero-trust architecture. Smart skill gap analysis set up for your entire facility. All of it done right, not just fast.
+          Enterprise security & assessment systems built in days. Smart skill gap analysis set up for your entire facility. All of it done right, not just fast.
         </p>
 
         {/* Primary Action Button */}
