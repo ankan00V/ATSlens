@@ -88,7 +88,12 @@ def _fetch_github_api(api_url, params=None):
                 f"💡 Tip: Set GITHUB_TOKEN environment variable to increase rate limits (60/hour → 5000/hour)"
             )
 
-            if wait_seconds > 0:
+            if wait_seconds > 5:
+                logger.error(
+                    f"🚫 GitHub API rate limit hit. Waiting {wait_seconds}s is too long. Skipping GitHub data fetch."
+                )
+                return {}
+            elif wait_seconds > 0:
                 logger.info(
                     f"⏳ Proactively sleeping for {wait_seconds} seconds until rate limit resets..."
                 )

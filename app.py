@@ -1,17 +1,41 @@
 import os
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from typing import Dict, Any
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request, Body
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, Response
 import tempfile
 import traceback
 
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
 from roles import list_available_roles, load_role
 from score import main as evaluate_resume
+try:
+    from services.pdf_report import generate_pdf_report
+except ImportError:
+    from pdf_report import generate_pdf_report
+
 
 app = FastAPI(title="ATSlens")
 
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 @app.get("/api/roles")
-def get_roles():
+@limiter.limit("30/minute")
+async def get_roles(request: Request):
     try:
         roles = list_available_roles()
         return {"roles": roles}
@@ -19,7 +43,9 @@ def get_roles():
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/evaluate")
+@limiter.limit("10/minute")
 async def evaluate(
+    request: Request,
     resume: UploadFile = File(...),
     role: str = Form(...),
     yoe: str = Form(None),
@@ -29,10 +55,17 @@ async def evaluate(
         if not resume.filename.endswith(".pdf"):
             raise HTTPException(status_code=400, detail="Only PDF files are supported")
 
+        content = await resume.read()
+
+        if len(content) > 10 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="Payload Too Large: File size exceeds the 10MB limit.")
+
+        if not content.startswith(b"%PDF-"):
+            raise HTTPException(status_code=400, detail="Invalid PDF file. Magic bytes validation failed: file content must start with %PDF- header.")
+
         # Save uploaded PDF to a temporary file
         fd, temp_path = tempfile.mkstemp(suffix=".pdf")
         with os.fdopen(fd, "wb") as f:
-            content = await resume.read()
             f.write(content)
 
         # Load role configuration
@@ -95,11 +128,39 @@ async def evaluate(
 
         return JSONResponse(content=result_dict)
 
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/export-pdf")
+@limiter.limit("20/minute")
+async def export_pdf(request: Request, payload: Dict[str, Any] = Body(...)):
+    try:
+        if not payload:
+            raise HTTPException(status_code=400, detail="Evaluation data payload is required")
+
+        evaluation_data = payload.get("evaluation_data") if "evaluation_data" in payload and isinstance(payload["evaluation_data"], dict) else payload
+
+        pdf_bytes = generate_pdf_report(evaluation_data)
+
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={
+                "Content-Type": "application/pdf",
+                "Content-Disposition": 'attachment; filename="ATSlens_Evaluation_Report.pdf"'
+            }
+        )
+    except HTTPException:
+        raise
     except Exception as e:
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
 # Mount the frontend directory at the root (must be after API routes)
+
 frontend_path = os.path.join("frontend", "dist")
 if os.path.exists(frontend_path):
     app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
