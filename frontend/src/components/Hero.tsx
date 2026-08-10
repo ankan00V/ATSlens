@@ -592,10 +592,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             
             <div className="space-y-2">
               <h3 className="text-xl font-bold tracking-tight text-foreground">
-                Waking up the Engine
+                Mr. Render is waking up... 😴
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Render spins down free services when inactive. The AI backend is waking up right now (usually takes ~50s). 
+                Just a sec! By that time, prepare your JD and resume. 
               </p>
             </div>
 
