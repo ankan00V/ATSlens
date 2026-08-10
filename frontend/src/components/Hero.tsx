@@ -109,12 +109,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     const API_URL = import.meta.env.VITE_API_URL || '';
     const checkHealth = () => {
       fetch(`${API_URL}/api/roles`)
-        .then((res) => {
+        .then(async (res) => {
           if (res.ok) {
-            res.json().then((data) => {
-              if (data.roles) setRoles(data.roles);
-            });
-            setIsBackendReady(true);
+            try {
+              const text = await res.text();
+              const data = JSON.parse(text);
+              if (data && data.roles) {
+                setRoles(data.roles);
+                setIsBackendReady(true);
+              } else {
+                setTimeout(checkHealth, 3000);
+              }
+            } catch (err) {
+              // Failed to parse JSON (likely HTML fallback from dev server)
+              setTimeout(checkHealth, 3000);
+            }
           } else {
             setTimeout(checkHealth, 3000);
           }
