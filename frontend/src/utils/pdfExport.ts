@@ -10,7 +10,8 @@ export interface ExportPdfOptions {
 export async function exportEvaluationPdf({ result, selectedRole, elementId }: ExportPdfOptions): Promise<void> {
   // Option A: Attempt server-side PDF generation endpoint first
   try {
-    const response = await fetch('/api/export-pdf', {
+    const API_URL = import.meta.env.VITE_API_URL || '';
+    const response = await fetch(`${API_URL}/api/export-pdf`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

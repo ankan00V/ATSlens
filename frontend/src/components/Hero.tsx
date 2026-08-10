@@ -104,7 +104,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const timerRef = useRef<any>(null);
 
   useEffect(() => {
-    fetch('/api/roles')
+    const API_URL = import.meta.env.VITE_API_URL || '';
+    fetch(`${API_URL}/api/roles`)
       .then((res) => res.json())
       .then((data) => {
         if (data.roles) {
@@ -164,7 +165,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     if (jd) formData.append('jd', jd);
 
     try {
-      const response = await fetch('/api/evaluate', {
+      const API_URL = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${API_URL}/api/evaluate`, {
         method: 'POST',
         body: formData,
       });
