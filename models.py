@@ -285,6 +285,7 @@ def build_evaluation_model(role) -> Type[BaseModel]:
 
     return create_model(
         "EvaluationData",
+        is_valid_resume=(bool, Field(default=True, description="False if the document is NOT a valid resume (e.g. it is an invoice, blank, or completely irrelevant). True otherwise.")),
         scores=(scores_model, ...),
         bonus_points=(bonus_model, ...),
         deductions=(Deductions, ...),

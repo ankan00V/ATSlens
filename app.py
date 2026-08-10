@@ -89,6 +89,12 @@ async def evaluate(
 
         result_dict = evaluation_result.model_dump()
 
+        if not result_dict.get("is_valid_resume", True):
+            raise HTTPException(
+                status_code=400, 
+                detail="The uploaded document does not appear to be a valid resume or is completely irrelevant to the job profile."
+            )
+
         # Compute overall score from category scores + bonus - deductions
         total_score = 0
         max_score = 0

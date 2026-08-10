@@ -357,6 +357,12 @@ def main(pdf_path, role: Role, yoe: str = None, jd: str = None):
                     encoding="utf-8",
                 )
 
+    # Validate extracted resume data
+    if not is_valid_resume_data(resume_data):
+        # Return a minimal EvaluationData indicating invalid resume
+        from models import EvaluationData
+        return EvaluationData(is_valid_resume=False, scores={}, bonus_points={}, deductions=Deductions(total=0.0, reasons=""), key_strengths=[], areas_for_improvement=[], sub_scores=SubScores(), keyword_gap_analysis=KeywordGap(), missing_tech_stack=[], skill_recommendations=[])
+
     score = _evaluate_resume(resume_data, role, evaluation_model, github_data, yoe=yoe, jd=jd)
 
     # Get candidate name for display

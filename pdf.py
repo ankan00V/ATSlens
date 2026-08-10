@@ -66,10 +66,16 @@ class PDFHandler:
                 logger.debug(
                     f"Extracted text from PDF: {len(resume_text) if resume_text else 0} characters"
                 )
+                # Basic heuristic check: ensure the extracted text contains typical resume keywords
+                resume_lower = resume_text.lower()
+                resume_indicators = ["experience", "education", "skills", "project", "work"]
+                if not any(keyword in resume_lower for keyword in resume_indicators):
+                    logger.error("Uploaded file does not appear to be a valid resume. Please upload a valid resume file.")
+                    raise ValueError("Uploaded file does not appear to be a valid resume.")
                 return resume_text
         except Exception as e:
             logger.error(f"An error occurred while reading the PDF: {e}")
-            return None
+            raise e
 
     def _call_llm_for_section(
         self, section_name: str, text_content: str, prompt: str, return_model=None
@@ -210,8 +216,8 @@ class PDFHandler:
             text_content = self.extract_text_from_pdf(pdf_path)
 
             if not text_content:
-                logger.error("❌ Failed to extract text from PDF")
-                return None
+                logger.error("❌ Failed to extract text from PDF - file may not be a valid resume")
+                raise ValueError("Failed to extract resume text. Ensure the uploaded file is a valid resume PDF.")
 
             logger.debug(
                 f"✅ Successfully extracted {len(text_content)} characters from PDF"
@@ -322,6 +328,11 @@ class PDFHandler:
                 except Exception as e:
                     logger.error(f"❌ Exception during section extraction: {e}")
                     return None
+
+        # Ensure at least one meaningful section was extracted
+        if not any(value for value in complete_resume.values() if value is not None):
+            logger.error("❌ No resume sections could be extracted; aborting JSONResume creation")
+            return None
 
         try:
             if complete_resume.get("basics") and isinstance(

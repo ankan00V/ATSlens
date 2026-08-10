@@ -21,3 +21,9 @@ evidence for each.
 
 You MUST respond with valid JSON matching the exact structure specified in the
 prompt. Do not add or omit fields.
+
+
+**ANTI-HALLUCINATION & INVALID DOCUMENT CHECK:**
+First, determine if the provided text is actually a valid resume/CV. 
+If it is an invoice, a receipt, a random article, or completely irrelevant, you MUST set `is_valid_resume` to `false`, score 0 for all categories, and state clearly in the feedback that it is not a resume. 
+Do NOT hallucinate or invent skills, experiences, or education that are not explicitly present in the document.
