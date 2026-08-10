@@ -1,0 +1,32 @@
+{
+  "position_title": "Custom Role (as specified in Job Description)",
+  "categories": [
+    {
+      "key": "work_experience",
+      "label": "Work Experience",
+      "max": 35,
+      "icon": "\ud83d\udcbc"
+    },
+    {
+      "key": "technical_skills",
+      "label": "Technical Skills",
+      "max": 35,
+      "icon": "\ud83d\udcbb"
+    },
+    {
+      "key": "education",
+      "label": "Education",
+      "max": 15,
+      "icon": "\ud83c\udf93"
+    },
+    {
+      "key": "project_impact",
+      "label": "Project Impact",
+      "max": 15,
+      "icon": "\ud83d\ude80"
+    }
+  ],
+  "bonus_max": 10,
+  "min_final_score": 0,
+  "max_final_score": 110
+}

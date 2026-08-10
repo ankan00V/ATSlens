@@ -60,6 +60,9 @@ async def evaluate(
         if len(content) > 10 * 1024 * 1024:
             raise HTTPException(status_code=413, detail="Payload Too Large: File size exceeds the 10MB limit.")
 
+        if role == "custom" and not jd:
+            raise HTTPException(status_code=400, detail="A Job Description (JD) is mandatory when evaluating for a Custom Role.")
+
         if not content.startswith(b"%PDF-"):
             raise HTTPException(status_code=400, detail="Invalid PDF file. Magic bytes validation failed: file content must start with %PDF- header.")
 
