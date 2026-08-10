@@ -50,10 +50,15 @@ export default {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
+        "progress": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(200%)" },
+        }
       },
       animation: {
         "fade-up": "fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "fade-in": "fade-in 0.5s ease-out forwards",
+        "progress": "progress 2s ease-in-out infinite",
       },
     },
   },

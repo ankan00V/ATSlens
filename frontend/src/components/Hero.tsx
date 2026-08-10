@@ -99,21 +99,40 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const [result, setResult] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [exportingPdf, setExportingPdf] = useState<boolean>(false);
+  const [isBackendReady, setIsBackendReady] = useState<boolean>(false);
+  const [showWakeupModal, setShowWakeupModal] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const timerRef = useRef<any>(null);
 
   useEffect(() => {
     const API_URL = import.meta.env.VITE_API_URL || '';
-    fetch(`${API_URL}/api/roles`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.roles) {
-          setRoles(data.roles);
-        }
-      })
-      .catch((err) => console.error('Failed to fetch roles:', err));
+    const checkHealth = () => {
+      fetch(`${API_URL}/api/roles`)
+        .then((res) => {
+          if (res.ok) {
+            res.json().then((data) => {
+              if (data.roles) setRoles(data.roles);
+            });
+            setIsBackendReady(true);
+          } else {
+            setTimeout(checkHealth, 3000);
+          }
+        })
+        .catch((err) => {
+          console.warn('Backend waking up...', err);
+          setTimeout(checkHealth, 3000);
+        });
+    };
+    checkHealth();
   }, []);
+
+  useEffect(() => {
+    if (isBackendReady && showWakeupModal) {
+      setShowWakeupModal(false);
+      onOpenModal();
+    }
+  }, [isBackendReady, showWakeupModal, onOpenModal]);
 
   useEffect(() => {
     if (loading) {
@@ -251,7 +270,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           style={{ animationDelay: '0.4s' }}
         >
           <button
-            onClick={onOpenModal}
+            onClick={() => {
+              if (isBackendReady) {
+                onOpenModal();
+              } else {
+                setShowWakeupModal(true);
+              }
+            }}
             className="bg-primary text-primary-foreground px-8 py-4 text-xs rounded-md cursor-pointer hover:brightness-110 transition-all active:scale-[0.97] pointer-events-auto uppercase tracking-widest font-bold flex items-center gap-3 shadow-xl shadow-primary/25"
           >
             <span>Run AI Assessment</span>
@@ -552,6 +577,35 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Render Wake-up Modal */}
+      {showWakeupModal && !isBackendReady && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-card border border-border max-w-md w-full p-8 rounded-lg shadow-2xl flex flex-col items-center text-center space-y-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full" />
+              <Activity className="w-12 h-12 text-primary animate-pulse relative z-10" />
+            </div>
+            
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold tracking-tight text-foreground">
+                Waking up the Engine
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Render spins down free services when inactive. The AI backend is waking up right now (usually takes ~50s). 
+              </p>
+            </div>
+
+            <div className="w-full bg-secondary rounded-full h-1.5 overflow-hidden">
+              <div className="bg-primary h-full animate-progress" style={{ width: '50%' }} />
+            </div>
+
+            <p className="text-xs text-muted-foreground pt-2">
+              Please prepare your resume and job description. This popup will close automatically once the backend is ready.
+            </p>
           </div>
         </div>
       )}
