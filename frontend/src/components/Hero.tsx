@@ -167,9 +167,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       return;
     }
 
-    const activeRole = selectedRole === 'other' ? (customRole.trim() || 'custom_role') : selectedRole;
+    const activeRole = selectedRole === 'other' ? 'custom' : selectedRole;
     if (selectedRole === 'other' && !customRole.trim()) {
       setError('Please enter a custom target role name.');
+      return;
+    }
+    if (selectedRole === 'other' && !jd.trim()) {
+      setError('A Job Description (JD) is mandatory when evaluating for a Custom Role.');
       return;
     }
 
@@ -181,7 +185,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     formData.append('resume', file);
     formData.append('role', activeRole);
     if (yoe) formData.append('yoe', yoe);
-    if (jd) formData.append('jd', jd);
+    
+    // If it's a custom role, prepend the target title to the JD so the AI gets full context
+    let finalJd = jd;
+    if (selectedRole === 'other') {
+      finalJd = `Target Role Title: ${customRole.trim()}\n\n${jd}`;
+    }
+    if (finalJd) formData.append('jd', finalJd);
 
     try {
       const API_URL = import.meta.env.VITE_API_URL || '';
