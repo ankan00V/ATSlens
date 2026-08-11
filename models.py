@@ -234,10 +234,10 @@ class KeywordGap(BaseModel):
     """Keyword gap analysis matching resume skills against job requirements."""
 
     matched_keywords: List[str] = Field(
-        default_factory=list, description="Matched keywords found in resume"
+        description="Matched keywords found in resume"
     )
     missing_keywords: List[str] = Field(
-        default_factory=list, description="Missing keywords needed for role"
+        description="Missing keywords needed for role"
     )
 
 
@@ -285,16 +285,16 @@ def build_evaluation_model(role) -> Type[BaseModel]:
 
     return create_model(
         "EvaluationData",
-        is_valid_resume=(bool, Field(default=True, description="False if the document is NOT a valid resume (e.g. it is an invoice, blank, or completely irrelevant). True otherwise.")),
+        is_valid_resume=(bool, Field(description="False if the document is NOT a valid resume (e.g. it is an invoice, blank, or completely irrelevant). True otherwise.")),
         scores=(scores_model, ...),
         bonus_points=(bonus_model, ...),
         deductions=(Deductions, ...),
-        key_strengths=(List[str], Field(default_factory=list, min_items=1, max_items=5)),
-        areas_for_improvement=(List[str], Field(default_factory=list, min_items=1, max_items=5)),
-        sub_scores=(SubScores, Field(default_factory=SubScores)),
-        keyword_gap_analysis=(KeywordGap, Field(default_factory=KeywordGap)),
-        missing_tech_stack=(List[str], Field(default_factory=list)),
-        skill_recommendations=(List[str], Field(default_factory=list)),
+        key_strengths=(List[str], Field(min_items=1, max_items=5, description="Key strengths of the candidate")),
+        areas_for_improvement=(List[str], Field(min_items=1, max_items=5, description="Areas for improvement")),
+        sub_scores=(SubScores, ...),
+        keyword_gap_analysis=(KeywordGap, ...),
+        missing_tech_stack=(List[str], Field(description="List of missing technologies from the tech stack")),
+        skill_recommendations=(List[str], Field(description="Recommendations to improve the skill profile")),
     )
 
 
