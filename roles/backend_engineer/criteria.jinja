@@ -1,5 +1,5 @@
-You are evaluating a resume for a Backend Engineer position. Analyze the resume data and
-provide scores based on these criteria:
+You are evaluating a resume for the Backend Engineer. Analyze the resume data and
+provide strict MAANG-level scores based on these criteria:
 
 {% if jd %}
 ## Custom Job Description
@@ -14,22 +14,26 @@ The candidate should have approximately {{ yoe }} of experience.
 
 **MANDATORY: You MUST always fill ALL categories: work_experience, technical_skills, education, project_impact.**
 
-## SCORING CRITERIA
+## SCORING CRITERIA (MAANG STANDARD)
 
 ### Work Experience (0-35 points)
-- Relevant backend engineering experience, systems architecture, scalability, API design, microservices, databases.
+- Strict evaluation of work experience for a Backend Engineer.
 
 ### Technical Skills (0-35 points)
-- Proficiency in Python, Go, Java, Node.js, databases (SQL/NoSQL), messaging queues, Docker, Kubernetes, CI/CD.
+- Strict evaluation of technical skills for a Backend Engineer.
 
 ### Education (0-15 points)
-- Degree in Computer Science, Software Engineering, or related technical discipline / relevant certifications.
+- Strict evaluation of education for a Backend Engineer.
 
 ### Project Impact (0-15 points)
-- Production contributions, system optimizations, measurable performance gains, high-scale service handling.
+- Strict evaluation of project impact for a Backend Engineer.
 
 ## BONUS POINTS (Maximum total: 10 points)
-- Open source contributions, high-traffic systems experience, engineering leadership or publications.
+- GSoC, major open source contributions, elite competitive programming (ICPC, high Codeforces rating), or founding successful technical startups.
+
+## DEDUCTIONS (Crucial for MAANG Grade)
+- **Role Mismatch**: Apply a 20-40 point deduction if the candidate's core expertise (e.g., Data Science, QA, Frontend) doesn't strictly match the Backend Engineer requirements.
+- **Tutorial Projects**: Apply 5-15 point deductions for generic tutorial projects (Todo apps, basic weather apps).
 
 ## CRITICAL REQUIREMENTS
 1. You MUST respond with ONLY the JSON structure below
@@ -39,30 +43,30 @@ The candidate should have approximately {{ yoe }} of experience.
 
 Analyze the following resume and provide a JSON response with this EXACT structure:
 
-{
-    "scores": {
+{{
+    "scores": {{
         "work_experience": {"score": 0, "max": 35, "evidence": "string"},
         "technical_skills": {"score": 0, "max": 35, "evidence": "string"},
         "education": {"score": 0, "max": 15, "evidence": "string"},
         "project_impact": {"score": 0, "max": 15, "evidence": "string"}
-    },
-    "sub_scores": {
+    }},
+    "sub_scores": {{
         "work_experience": 0.0,
         "technical_skills": 0.0,
         "education": 0.0,
         "project_impact": 0.0
-    },
-    "keyword_gap_analysis": {
-        "matched_keywords": ["keyword1", "keyword2"],
-        "missing_keywords": ["keyword3"]
-    },
+    }},
+    "keyword_gap_analysis": {{
+        "matched_keywords": ["keyword1"],
+        "missing_keywords": ["keyword2"]
+    }},
     "missing_tech_stack": ["tech1"],
     "skill_recommendations": ["recommendation1"],
-    "bonus_points": {"total": 0, "breakdown": "string"},
-    "deductions": {"total": 0, "reasons": "string"},
+    "bonus_points": {{"total": 0, "breakdown": "string"}},
+    "deductions": {{"total": 0, "reasons": "string"}},
     "key_strengths": ["strength1", "strength2"],
     "areas_for_improvement": ["improvement1"]
-}
+}}
 
 Resume to evaluate:
 
