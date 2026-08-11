@@ -1,4 +1,5 @@
 from typing import Dict, List, Optional, Tuple, Any
+from evaluation_config import compute_composite_rank, DEFAULT_WEIGHTS
 from pydantic import BaseModel, Field, field_validator
 from models import JSONResume
 from llm_utils import initialize_llm_provider, extract_json_from_response
@@ -116,6 +117,13 @@ class ResumeEvaluator:
                     sr = list(evaluation_dict.get("areas_for_improvement", []))
             evaluation_dict["skill_recommendations"] = sr
 
+            # Compute composite rank using company scores if available
+            company_scores = evaluation_dict.get("company_scores", [])
+            composite_rank = compute_composite_rank(company_scores)
+            # Optionally apply weighting (currently DEFAULT_WEIGHTS not directly used in compute function)
+            # Add to dict for downstream use
+            evaluation_dict["composite_rank"] = round(composite_rank, 2)
+
             evaluation_data = self.evaluation_model(**evaluation_dict)
 
             return evaluation_data
@@ -123,4 +131,3 @@ class ResumeEvaluator:
         except Exception as e:
             logger.error(f"Error evaluating resume: {str(e)}")
             raise
-

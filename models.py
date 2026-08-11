@@ -253,6 +253,7 @@ class EvaluationData(BaseModel):
     keyword_gap_analysis: KeywordGap = Field(default_factory=KeywordGap)
     missing_tech_stack: List[str] = Field(default_factory=list)
     skill_recommendations: List[str] = Field(default_factory=list)
+    composite_rank: float = Field(default=0.0, description="Composite rank computed from company scores")
 
 
 def build_scores_model(categories) -> Type[BaseModel]:

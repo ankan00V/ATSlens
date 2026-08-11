@@ -109,9 +109,32 @@ async def evaluate(
         deductions = result_dict.get("deductions", {}).get("total", 0)
         total_score = total_score + bonus - deductions
 
+        # MAANG extra bonus criteria
+        extra_bonus = 0
+        if result_dict.get("open_source_contributions"):
+            extra_bonus += 5
+        if result_dict.get("patents"):
+            extra_bonus += 5
+        if result_dict.get("high_traffic_systems"):
+            extra_bonus += 5
+        if result_dict.get("leadership_experience"):
+            extra_bonus += 5
+        total_score += extra_bonus
+
+        # Compute MAANG grade based on standard thresholds
+        def maang_grade(score: float) -> str:
+            if score >= 90:
+                return "Strong Hire"
+            if score >= 80:
+                return "Hire"
+            if score >= 70:
+                return "Consider"
+            return "No Hire"
+
         result_dict["overall_score"] = round(total_score, 1)
         result_dict["max_score"] = max_score
         result_dict["category_scores"] = category_scores
+        result_dict["maang_grade"] = maang_grade(round(total_score, 1))
 
         # Save to database
         db_uri = os.environ.get("MONGODB_URI")

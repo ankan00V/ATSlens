@@ -1,0 +1,21 @@
+# evaluation_schema.json
+{
+  "type": "object",
+  "properties": {
+    "company_scores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "company_name": {"type": "string"},
+          "score": {"type": "number"},
+          "max": {"type": "number"}
+        },
+        "required": ["company_name", "score", "max"]
+      }
+    },
+    "composite_rank": {"type": "number"},
+    "job_description": {"type": "string"}
+  },
+  "required": ["company_scores", "composite_rank"]
+}
