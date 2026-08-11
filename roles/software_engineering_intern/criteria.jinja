@@ -43,30 +43,30 @@ The candidate should have approximately {{ yoe }} of experience.
 
 Analyze the following resume and provide a JSON response with this EXACT structure:
 
-{{
-    "scores": {{
+{
+    "scores": {
         "work_experience": {"score": 0, "max": 35, "evidence": "string"},
         "technical_skills": {"score": 0, "max": 35, "evidence": "string"},
         "education": {"score": 0, "max": 15, "evidence": "string"},
         "project_impact": {"score": 0, "max": 15, "evidence": "string"}
-    }},
-    "sub_scores": {{
+    },
+    "sub_scores": {
         "work_experience": 0.0,
         "technical_skills": 0.0,
         "education": 0.0,
         "project_impact": 0.0
-    }},
-    "keyword_gap_analysis": {{
+    },
+    "keyword_gap_analysis": {
         "matched_keywords": ["keyword1"],
         "missing_keywords": ["keyword2"]
-    }},
+    },
     "missing_tech_stack": ["tech1"],
     "skill_recommendations": ["recommendation1"],
-    "bonus_points": {{"total": 0, "breakdown": "string"}},
-    "deductions": {{"total": 0, "reasons": "string"}},
+    "bonus_points": {"total": 0, "breakdown": "string"},
+    "deductions": {"total": 0, "reasons": "string"},
     "key_strengths": ["strength1", "strength2"],
     "areas_for_improvement": ["improvement1"]
-}}
+}
 
 Resume to evaluate:
 

@@ -15,8 +15,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List
 import json
+from jsonschema import validate, ValidationError
 
 ROLES_DIR = Path(__file__).parent / "roles"
+SCHEMA_PATH = Path(__file__).parent / "schemas" / "role_schema.json"
 
 
 @dataclass(frozen=True)
@@ -129,24 +131,24 @@ The candidate should have approximately {{ yoe }} of experience.
 
 Analyze the following resume and provide a JSON response with this EXACT structure:
 
-{{
-    "scores": {{
+{
+    "scores": {
 {scores_json}
-    }},
-    "sub_scores": {{
+    },
+    "sub_scores": {
 {sub_scores_json}
-    }},
-    "keyword_gap_analysis": {{
+    },
+    "keyword_gap_analysis": {
         "matched_keywords": ["keyword1"],
         "missing_keywords": ["keyword2"]
-    }},
+    },
     "missing_tech_stack": ["tech1"],
     "skill_recommendations": ["recommendation1"],
-    "bonus_points": {{"total": 0, "breakdown": "string"}},
-    "deductions": {{"total": 0, "reasons": "string"}},
+    "bonus_points": {"total": 0, "breakdown": "string"},
+    "deductions": {"total": 0, "reasons": "string"},
     "key_strengths": ["strength1", "strength2"],
     "areas_for_improvement": ["improvement1"]
-}}
+}
 
 Resume to evaluate:
 
@@ -177,6 +179,10 @@ def scaffold_role(name: str) -> Path:
         f'        "{c["key"]}": {{"score": 0, "max": {c["max"]}, "evidence": "string"}}'
         for c in categories
     )
+    sub_scores_json = ",\n".join(
+        f'        "{c["key"]}": 0.0'
+        for c in categories
+    )
 
     role_dir.mkdir(parents=True)
     manifest = {**_SCAFFOLD_MANIFEST}
@@ -184,20 +190,19 @@ def scaffold_role(name: str) -> Path:
         json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
     )
     (role_dir / "system_message.jinja").write_text(
-        _SCAFFOLD_SYSTEM_MESSAGE.format(
-            position_title=manifest["position_title"],
-            category_keys=category_keys,
-        ),
+        _SCAFFOLD_SYSTEM_MESSAGE
+            .replace('{position_title}', manifest["position_title"])
+            .replace('{category_keys}', category_keys),
         encoding="utf-8",
     )
     (role_dir / "criteria.jinja").write_text(
-        _SCAFFOLD_CRITERIA.format(
-            position_title=manifest["position_title"],
-            category_keys=category_keys,
-            bonus_max=manifest["bonus_max"],
-            criteria_sections=criteria_sections,
-            scores_json=scores_json,
-        ),
+        _SCAFFOLD_CRITERIA
+            .replace('{position_title}', manifest["position_title"])
+            .replace('{category_keys}', category_keys)
+            .replace('{bonus_max}', str(manifest["bonus_max"]))
+            .replace('{criteria_sections}', criteria_sections)
+            .replace('{scores_json}', scores_json)
+            .replace('{sub_scores_json}', sub_scores_json),
         encoding="utf-8",
     )
     return role_dir
@@ -230,6 +235,14 @@ def load_role(name: str) -> Role:
     except json.JSONDecodeError as e:
         raise ValueError(f"Role '{name}' has an invalid role.json: {e}") from e
 
+    # Validate manifest against JSON schema
+    try:
+        schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+        validate(instance=manifest, schema=schema)
+    except ValidationError as ve:
+        raise ValueError(f"Role '{name}' manifest validation error: {ve.message}") from ve
+    except FileNotFoundError as fe:
+        raise ValueError(f"Schema file not found for role validation: {fe}") from fe
     raw_categories = manifest.get("categories")
     if not raw_categories or not isinstance(raw_categories, list):
         raise ValueError(
