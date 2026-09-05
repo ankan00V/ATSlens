@@ -45,7 +45,7 @@ Built with a sleek, MAANG-style frontend using React, Framer Motion, and Tailwin
 ### Prerequisites
 - Node.js 18+
 - Python 3.11+
-- Nvidia NIM API Key (or alternative LLM provider API key)
+- NVIDIA NIM API key (or a key for another provider in `providers.json`)
 
 ### Backend Setup
 1. Clone the repository.
@@ -100,10 +100,25 @@ Set these in the Vercel project (Settings -> Environment Variables), not in
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `NVIDIA_API_KEY` | yes | Auth for the default `meta/llama-3.1-8b-instruct` model on NVIDIA NIM. Without it every evaluation fails with "requires env var 'NVIDIA_API_KEY', but it is unset". |
-| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines — e.g. `meta/llama-3.3-70b-instruct` for a stronger evaluation, or a Gemini/Anthropic model if you set that provider's key instead. |
+| `NVIDIA_API_KEY` | yes | Auth for the default `openai/gpt-oss-20b` model on NVIDIA NIM. Without it every evaluation fails with "requires env var 'NVIDIA_API_KEY', but it is unset". |
+| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines — e.g. `nvidia/nemotron-3-super-120b-a12b` for a stronger but slower evaluation, or a Gemini/Anthropic model if you set that provider's key instead. |
 | `MONGODB_URI` | no | Persists evaluations. Omit and the app runs fine, skipping the write. |
 | `DEVELOPMENT_MODE` | no | Forces dev mode on or off. Defaults off when `VERCEL` or `RENDER` is set, on locally. |
+
+### Models go end-of-life
+
+`providers.json` names specific models, and providers retire them. Both models
+this project originally used (`meta/llama-3.1-8b-instruct` and
+`meta/llama-3.3-70b-instruct`) reached end of life on 2026-08-26 and now return
+HTTP 410, which surfaces only as "Failed to evaluate the resume. Could not
+extract core content" because `_call_llm_for_section` in `pdf.py` catches every
+exception and returns `None`. If evaluations start failing with that message
+while `/api/roles` still works, check the model first:
+
+```bash
+curl -s https://integrate.api.nvidia.com/v1/models \
+  -H "Authorization: Bearer $NVIDIA_API_KEY" | python3 -m json.tool | grep '"id"'
+```
 
 ### Notes for the serverless function
 
