@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Role Manifest",
+  "type": "object",
+  "required": ["position_title", "categories", "bonus_max", "min_final_score", "max_final_score"],
+  "properties": {
+    "position_title": {"type": "string"},
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["key", "label", "max"],
+        "properties": {
+          "key": {"type": "string"},
+          "label": {"type": "string"},
+          "max": {"type": "integer", "minimum": 0},
+          "icon": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "bonus_max": {"type": "integer", "minimum": 0},
+    "min_final_score": {"type": "integer"},
+    "max_final_score": {"type": "integer"}
+  },
+  "additionalProperties": false
+}

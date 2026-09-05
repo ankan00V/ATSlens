@@ -6,12 +6,24 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# Global development mode flag. Preserved here because score.py and github.py
-# import it from this module.
-DEVELOPMENT_MODE = True
-
 # Load .env before any os.getenv below, so values apply regardless of import order.
 load_dotenv(Path(__file__).parent / ".env")
+
+
+def _env_flag(name: str, default: bool) -> bool:
+    """Read a boolean env var, falling back to *default* when unset."""
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in ("1", "true", "yes", "on")
+
+
+# Global development mode flag. Preserved here because score.py and github.py
+# import it from this module. It gates every write to disk (the resume/GitHub
+# JSON cache under cache/ and the per-role CSV export), so it MUST be off on
+# serverless platforms, whose filesystem is read-only outside /tmp — otherwise
+# every evaluation dies with "Read-only file system". Vercel sets VERCEL=1.
+DEVELOPMENT_MODE = _env_flag("DEVELOPMENT_MODE", default=not os.getenv("VERCEL"))
 
 _CONFIG_PATH = Path(__file__).parent / "providers.json"
 

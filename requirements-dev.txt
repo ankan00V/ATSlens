@@ -1,0 +1,8 @@
+-r requirements.txt
+
+# Dev/test only — never installed into the serverless function.
+black
+uvicorn
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+httpx>=0.24.0

@@ -1,18 +1,12 @@
-PyMuPDF
+# Runtime dependencies (installed into the Vercel serverless function).
+# Keep this list minimal — the function has a 250 MB unzipped size limit.
+PyMuPDF==1.28.2
 pydantic
 requests
-pymupdf4llm
 Jinja2
-google-generativeai
 python-dotenv
-black
 fastapi
-uvicorn
 python-multipart
 pymongo
-slowapi>=0.1.9
+jsonschema>=4.0.0
 reportlab>=4.0.0
-pytest>=7.0.0
-pytest-asyncio>=0.21.0
-httpx>=0.24.0
-
