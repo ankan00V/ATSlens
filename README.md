@@ -53,15 +53,17 @@ Built with a sleek, MAANG-style frontend using React, Framer Motion, and Tailwin
    ```bash
    python -m venv .venv
    source .venv/bin/activate
-   pip install -r requirements.txt
+   pip install -r requirements-dev.txt
    ```
+   `requirements.txt` holds only what the deployed app needs; `requirements-dev.txt`
+   pulls that in plus the test and formatting tools.
 3. Copy `.env.example` to `.env` and add your API keys:
    ```bash
    cp .env.example .env
    ```
 4. Run the FastAPI development server:
    ```bash
-   python -m uvicorn app:app --reload --host 0.0.0.1 --port 8000
+   python -m uvicorn app:app --reload --host 127.0.0.1 --port 8000
    ```
 
 ### Frontend Setup
@@ -77,6 +79,41 @@ Built with a sleek, MAANG-style frontend using React, Framer Motion, and Tailwin
    ```bash
    npm run dev
    ```
+
+## Deployment
+
+The whole app — static frontend and FastAPI backend — runs as a single Vercel
+project at https://atslens.vercel.app. [vercel.json](vercel.json) builds
+`frontend/package.json` as a static site and `app.py` as a Python function, then
+routes `/api/*` to the function and everything else to the frontend.
+
+The frontend calls the API on its own origin: `VITE_API_URL` is unset, so
+`API_URL` falls back to `''` and requests go to `/api/*` on the same host. To run
+the backend somewhere else instead, set `VITE_API_URL` to its base URL as a
+build-time variable in Vercel and drop the `app.py` entry from `vercel.json` —
+CORS is already open in [app.py](app.py).
+
+### Required environment variables
+
+Set these in the Vercel project (Settings -> Environment Variables), not in
+`.env` — `.env` is gitignored and never reaches the deployment.
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `GEMINI_API_KEY` | yes | Auth for the default `gemini-2.5-flash` model. Without it every evaluation fails with "requires env var 'GEMINI_API_KEY', but it is unset". |
+| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines. |
+| `MONGODB_URI` | no | Persists evaluations. Omit and the app runs fine, skipping the write. |
+| `DEVELOPMENT_MODE` | no | Forces dev mode on or off. Defaults off when `VERCEL` or `RENDER` is set, on locally. |
+
+### Notes for the serverless function
+
+- Vercel caps a function at 250 MB unzipped. Keep `requirements.txt` minimal —
+  an oversized set previously made pip silently skip `jsonschema`, which crashed
+  every cold start with `ModuleNotFoundError`.
+- The filesystem is read-only outside `/tmp`. `DEVELOPMENT_MODE` gates every disk
+  write (the `cache/` JSON cache and the per-role CSV export), which is why it
+  must stay off in deployment.
+- Environment variables only apply to new builds, so redeploy after changing one.
 
 ## License
 
