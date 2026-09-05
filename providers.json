@@ -1,5 +1,5 @@
 {
-  "default_model": "gemini-2.5-flash",
+  "default_model": "meta/llama-3.1-8b-instruct",
   "providers": {
     "ollama": {
       "base_url": "http://localhost:11434/v1",

@@ -100,8 +100,8 @@ Set these in the Vercel project (Settings -> Environment Variables), not in
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `GEMINI_API_KEY` | yes | Auth for the default `gemini-2.5-flash` model. Without it every evaluation fails with "requires env var 'GEMINI_API_KEY', but it is unset". |
-| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines. |
+| `NVIDIA_API_KEY` | yes | Auth for the default `meta/llama-3.1-8b-instruct` model on NVIDIA NIM. Without it every evaluation fails with "requires env var 'NVIDIA_API_KEY', but it is unset". |
+| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines — e.g. `meta/llama-3.3-70b-instruct` for a stronger evaluation, or a Gemini/Anthropic model if you set that provider's key instead. |
 | `MONGODB_URI` | no | Persists evaluations. Omit and the app runs fine, skipping the write. |
 | `DEVELOPMENT_MODE` | no | Forces dev mode on or off. Defaults off when `VERCEL` or `RENDER` is set, on locally. |
 
