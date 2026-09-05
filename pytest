@@ -1,2 +1,11 @@
 #!/usr/bin/env bash
-python3 -c "import os; os.getcwd = lambda: '/Users/ankanghosh/Desktop/projects/ATSlens'; import pytest, sys; sys.exit(pytest.console_main())" "$@"
+# Runs pytest with a working-directory guard, for the case where the shell's cwd
+# has been deleted and os.getcwd() raises. Resolves the project root from this
+# script's own location instead of a hardcoded path.
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT="$ROOT" python3 -c "
+import os, sys
+os.getcwd = lambda: os.environ['ROOT']
+import pytest
+sys.exit(pytest.console_main())
+" "$@"

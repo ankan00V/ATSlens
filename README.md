@@ -36,9 +36,9 @@ Built with a sleek, MAANG-style frontend using React, Framer Motion, and Tailwin
 - `pdf_report.py`: Generates the PDF export of the evaluation.
 
 ### Frontend (React/Vite)
-- `frontend/src/components/Hero.tsx`: Main upload interface with high-end animations.
+- `frontend/src/components/Hero.tsx`: Upload interface; calls `/api/roles` and `/api/evaluate`.
 - `frontend/src/components/SubScoresBreakdown.tsx`: Visualizes granular scores and missing skills.
-- `frontend/src/lib/api.ts`: Centralized API interaction logic.
+- `frontend/src/utils/pdfExport.ts`: Calls `/api/export-pdf`.
 
 ## Installation and Setup
 
