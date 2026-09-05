@@ -18,12 +18,17 @@ def _env_flag(name: str, default: bool) -> bool:
     return raw.strip().lower() in ("1", "true", "yes", "on")
 
 
+# Env vars each hosting platform injects into the running app, used only to tell
+# "deployed" from "someone's laptop". Vercel sets VERCEL=1; Render sets RENDER=true.
+_HOSTED = any(os.getenv(v) for v in ("VERCEL", "RENDER"))
+
 # Global development mode flag. Preserved here because score.py and github.py
 # import it from this module. It gates every write to disk (the resume/GitHub
-# JSON cache under cache/ and the per-role CSV export), so it MUST be off on
-# serverless platforms, whose filesystem is read-only outside /tmp — otherwise
-# every evaluation dies with "Read-only file system". Vercel sets VERCEL=1.
-DEVELOPMENT_MODE = _env_flag("DEVELOPMENT_MODE", default=not os.getenv("VERCEL"))
+# JSON cache under cache/ and the per-role CSV export). On Vercel those writes
+# raise "Read-only file system" and kill the request; on Render they succeed but
+# quietly accumulate junk on an ephemeral disk. Neither is wanted, so it defaults
+# off wherever we are hosted, and stays on locally. Override with DEVELOPMENT_MODE.
+DEVELOPMENT_MODE = _env_flag("DEVELOPMENT_MODE", default=not _HOSTED)
 
 _CONFIG_PATH = Path(__file__).parent / "providers.json"
 

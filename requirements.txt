@@ -1,5 +1,8 @@
-# Runtime dependencies (installed into the Vercel serverless function).
-# Keep this list minimal — the function has a 250 MB unzipped size limit.
+# Runtime dependencies. Installed by BOTH deploys: the Vercel serverless
+# function (atslens.vercel.app) and the Render web service (atslens-api).
+# Keep this list minimal — the Vercel function has a 250 MB unzipped limit,
+# and an oversized set previously made pip silently skip jsonschema, which
+# crashed every cold start with ModuleNotFoundError.
 PyMuPDF==1.28.2
 pydantic
 requests
@@ -10,3 +13,8 @@ python-multipart
 pymongo
 jsonschema>=4.0.0
 reportlab>=4.0.0
+# ASGI server. Vercel supplies its own runtime and never invokes this, but the
+# Render service (atslens-api) starts with `uvicorn app:app`, so it is a runtime
+# dependency there — moving it to requirements-dev.txt breaks that deploy with
+# `uvicorn: command not found` (exit 127).
+uvicorn
