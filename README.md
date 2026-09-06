@@ -100,10 +100,29 @@ Set these in the Vercel project (Settings -> Environment Variables), not in
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `NVIDIA_API_KEY` | yes | Auth for the default `openai/gpt-oss-20b` model on NVIDIA NIM. Without it every evaluation fails with "requires env var 'NVIDIA_API_KEY', but it is unset". |
-| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines — e.g. `nvidia/nemotron-3-super-120b-a12b` for a stronger but slower evaluation. |
+| `NVIDIA_API_KEY` | yes | Auth for the default `mistralai/mistral-nemotron` model on NVIDIA NIM. Without it every evaluation fails with "requires env var 'NVIDIA_API_KEY', but it is unset". |
+| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines — e.g. `openai/gpt-oss-20b` or `nvidia/nemotron-3-super-120b-a12b`, both measured far slower (see Model selection). |
 | `MONGODB_URI` | no | Persists evaluations. Omit and the app runs fine, skipping the write. |
 | `DEVELOPMENT_MODE` | no | Forces dev mode on or off. Defaults off when `VERCEL` or `RENDER` is set, on locally. |
+
+### Model selection
+
+Measured on one synthetic backend resume, full pipeline (7 parallel section
+extractions plus the evaluator call):
+
+| model | total | score | notes |
+| --- | --- | --- | --- |
+| `mistralai/mistral-nemotron` | **25-27s** | 87/100 | default; repeatable to within 2s |
+| `openai/gpt-oss-20b` | 115s (30-388s) | 89/100 | reasoning model; once exhausted its token budget and returned invalid JSON |
+| `nvidia/nemotron-3-super-120b-a12b` | 388s | 86/100 | fastest on a single call, slowest end to end |
+
+Two lessons worth keeping. Single-call latency does not predict pipeline time —
+`nemotron-3-super-120b` answered one call in 2.5s and still took 388s over a
+whole evaluation. And reasoning models are a poor fit here: they spend most of
+their token budget on hidden reasoning, which is both slow and, when the budget
+runs out mid-object, a source of invalid JSON. Setting `reasoning_effort: low`
+on `gpt-oss-20b` did not help — it ran 1.8x slower and returned 153 bogus
+missing keywords with an inflated 97/100.
 
 ### Models go end-of-life
 

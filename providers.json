@@ -1,5 +1,5 @@
 {
-  "default_model": "openai/gpt-oss-20b",
+  "default_model": "mistralai/mistral-nemotron",
   "providers": {
     "ollama": {
       "base_url": "http://localhost:11434/v1",
@@ -49,6 +49,10 @@
           "top_p": 0.7
         },
         "nvidia/nemotron-3-super-120b-a12b": {
+          "temperature": 0.2,
+          "top_p": 0.7
+        },
+        "mistralai/mistral-nemotron": {
           "temperature": 0.2,
           "top_p": 0.7
         }
