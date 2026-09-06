@@ -1,0 +1,25 @@
+# Render Blueprint for the ATSlens API.
+#
+# Why this file exists: the atslens-api service was configured through the
+# dashboard and served a FastAPI app with no routes — /api/roles, /docs and
+# /openapi.json all returned 404 while uvicorn itself was answering, which
+# means uvicorn was importing something other than this repo's app.py.
+# Keeping the config here makes it reviewable and reproducible.
+services:
+  - type: web
+    name: atslens-api
+    runtime: python
+    plan: free
+    # Repo root: app.py, providers.json, roles/ and schemas/ all live here.
+    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    # app:app = the FastAPI instance named `app` in app.py. Render supplies $PORT.
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/roles
+    envVars:
+      # Set the value in the dashboard; never commit it.
+      - key: NVIDIA_API_KEY
+        sync: false
+      # DEFAULT_MODEL is deliberately NOT set here. Leaving it unset lets
+      # providers.json be the single source of truth for the model, which is
+      # what kept the deployments pinned to retired models before.
