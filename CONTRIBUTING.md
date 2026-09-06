@@ -50,7 +50,7 @@ Thanks for your interest in improving this project. Contributions are welcome, i
 * Validate changes with a couple of real resumes under different providers when possible:
 
   * One run with Ollama using the default local model.
-  * One run with Gemini if you have an API key.
+  * One run against NVIDIA NIM using `NVIDIA_API_KEY`.
 * Add or adjust small smoke tests that exercise each stage with minimal inputs:
 
   * PDF to Markdown

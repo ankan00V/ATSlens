@@ -101,7 +101,7 @@ Set these in the Vercel project (Settings -> Environment Variables), not in
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `NVIDIA_API_KEY` | yes | Auth for the default `openai/gpt-oss-20b` model on NVIDIA NIM. Without it every evaluation fails with "requires env var 'NVIDIA_API_KEY', but it is unset". |
-| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines — e.g. `nvidia/nemotron-3-super-120b-a12b` for a stronger but slower evaluation, or a Gemini/Anthropic model if you set that provider's key instead. |
+| `DEFAULT_MODEL` | no | Overrides `default_model` in `providers.json`. Must name a model that file defines — e.g. `nvidia/nemotron-3-super-120b-a12b` for a stronger but slower evaluation. |
 | `MONGODB_URI` | no | Persists evaluations. Omit and the app runs fine, skipping the write. |
 | `DEVELOPMENT_MODE` | no | Forces dev mode on or off. Defaults off when `VERCEL` or `RENDER` is set, on locally. |
 
